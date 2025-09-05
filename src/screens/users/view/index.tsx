@@ -19,7 +19,7 @@ import {
   SvgIcon,
 } from "@mui/material";
 import { useDispatch } from "../../../services/store";
-import { fetchUserList } from "../../../services/store/actions/users";
+import { fetchMissingPersons, fetchUserList } from "../../../services/store/actions/users";
 import { useSnackbar } from "notistack";
 import { getInitials } from "../../../utils/get-initials";
 import PerfectScrollbar from "react-perfect-scrollbar";
@@ -29,14 +29,16 @@ import { Download as DownloadIcon } from "../../../icons/download";
 
 const View = () => {
   const dispatch = useDispatch();
-  const [userList, setUserList] = useState<string[]>([]);
+  const [userList, setUserList] = useState<[]>([]);
   const { enqueueSnackbar } = useSnackbar();
 
   const getUsers = async () => {
     try {
       const response: any = await dispatch(fetchUserList());
+      console.log(response.payload.content, 'response2')    
       if (response.meta.requestStatus === "fulfilled") {
-        setUserList(response.payload)
+        setUserList(response.payload.content)
+        console.log(userList)
       } else {
         enqueueSnackbar("Ocorreu um erro.", { variant: "error" });
       }
@@ -152,7 +154,7 @@ const View = () => {
                           {getInitials(user.name)}
                         </Avatar> */}
                         <Typography color="textPrimary" variant="body1">
-                          {user.name}
+                          {user.nome}
                         </Typography>
                       </Box>
                     </TableCell>

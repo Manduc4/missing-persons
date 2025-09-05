@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const axiosInstance = axios.create({
-  baseURL: 'http://127.0.0.1:8083/api',
+  baseURL: 'https://abitus-api.geia.vip/',
   timeout: 36000,
   headers: {
     'Content-Type': 'application/json',

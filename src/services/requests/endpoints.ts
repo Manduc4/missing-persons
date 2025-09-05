@@ -3,7 +3,7 @@ export default {
   register: "/register",
   login: "/login",
   logout: "/logout",
-  users: "/users",
   changePassword: "/me/users",
   recovery: "/recovery",
+  missingPersons: "/v1/pessoas",
 };

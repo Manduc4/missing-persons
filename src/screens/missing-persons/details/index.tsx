@@ -1,9 +1,9 @@
 import View from "./view";
 
-const BooksList = () => {
+const MissingPerson = () => {
   return (
     <View />
   )
 }
 
-export default BooksList
+export default MissingPerson

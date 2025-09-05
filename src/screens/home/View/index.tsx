@@ -7,8 +7,28 @@ import TotalProfit from "../../../components/home/totalProfit";
 import TrafficByDevice from "../../../components/home/trafficByDevice";
 import LatestProducts from "../../../components/home/latestProducts";
 import LatestOrders from "../../../components/home/latestOrders";
+import { dispatch } from "../../../services/store";
+import { fetchMissingPersons, fetchUserList } from "../../../services/store/actions/users";
 
 const View = () => {
+    const getUsers = async () => {
+      try {
+        const response: any = await dispatch(fetchUserList());
+        
+        console.log(response, 'response')    
+        if (response.meta.requestStatus === "fulfilled") {
+          // setUserList(response.payload)
+        } else {
+          // enqueueSnackbar("Ocorreu um erro.", { variant: "error" });
+        }
+      } catch (error: any) {
+        // enqueueSnackbar("Ocorreu um erro.", { variant: "error" });
+        console.log(error);
+      }
+    };
+
+    getUsers()
+
   return (
     <Box
       component="main"

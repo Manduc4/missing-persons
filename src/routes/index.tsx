@@ -6,13 +6,10 @@ import Home from "../screens/home";
 import { Login } from "../screens/unauthenticated/login";
 import GuestUser from "../guards/GuestUser";
 import UserGuard from "../guards/UserGuard";
-import Account from "../screens/profile/view";
-import BooksList from "../screens/books";
-import CompaniesList from "../screens/companies";
-import Settings from "../screens/settings";
-import Profile from "../screens/profile";
 import UsersList from "../screens/users";
 import Recovery from "../screens/unauthenticated/recovery";
+import MissingPersons from "../screens/missing-persons/list";
+import MissingPerson from "../screens/missing-persons/details";
 
 export default function Router() {
   return useRoutes([
@@ -43,34 +40,16 @@ export default function Router() {
     {
       path: "/",
       element: (
-        <UserGuard>
-          <Layout />
-        </UserGuard>
+        <Layout />
       ),
       children: [
         {
           path: "/",
-          element: <Home />,
+          element: <MissingPersons />,
         },
         {
-          path: "/livros",
-          element: <BooksList />,
-        },
-        {
-          path: "/usuarios",
-          element: <UsersList />,
-        },
-        {
-          path: "/empresas",
-          element: <CompaniesList />,
-        },
-        {
-          path: "/minha-conta",
-          element: <Profile />,
-        },
-        {
-          path: "/configuracoes",
-          element: <Settings />,
+          path: "/:id",
+          element: <MissingPerson />,
         },
       ],
     },
