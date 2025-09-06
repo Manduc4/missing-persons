@@ -1,41 +1,11 @@
 import { Navigate, useRoutes } from "react-router-dom";
-import Register from "../screens/unauthenticated/register";
-import { Layout } from "../layouts/dashboard/layout";
+import { Layout } from "../layouts/main";
 import NotFound from "../screens/404";
-import Home from "../screens/home";
-import { Login } from "../screens/unauthenticated/login";
-import GuestUser from "../guards/GuestUser";
-import UserGuard from "../guards/UserGuard";
-import Recovery from "../screens/unauthenticated/recovery";
-import MissingPersons from "../screens/missing-persons/list";
-import MissingPerson from "../screens/missing-persons/details";
+import Persons from "../screens/persons/list";
+import Person from "../screens/persons/details";
 
 export default function Router() {
   return useRoutes([
-    {
-      path: "/cadastro",
-      element: (
-        <GuestUser>
-          <Register />
-        </GuestUser>
-      ),
-    },
-    {
-      path: "/login",
-      element: (
-        <GuestUser>
-          <Login />
-        </GuestUser>
-      ),
-    },
-    {
-      path: "/recuperar-senha",
-      element: (
-        <GuestUser>
-          <Recovery />
-        </GuestUser>
-      ),
-    },
     {
       path: "/",
       element: (
@@ -44,11 +14,11 @@ export default function Router() {
       children: [
         {
           path: "/",
-          element: <MissingPersons />,
+          element: <Persons />,
         },
         {
           path: "/:id",
-          element: <MissingPerson />,
+          element: <Person />,
         },
       ],
     },
