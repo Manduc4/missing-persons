@@ -10,8 +10,6 @@ import {
   fetchCreateUser,
   fetchRecovery,
   fetchUpdatePassword,
-  fetchUpdateUser,
-  fetchUserList,
 } from "../actions/users";
 
 export interface AuthSliceProps {
@@ -142,16 +140,6 @@ const authSlice = createSlice({
       .addCase(fetchCreateUser.fulfilled, (state, action) => {
         state.loading = false;
         state.signed = false;
-      })
-      .addCase(fetchUpdateUser.pending, (state, action) => {
-        state.loading = true;
-      })
-      .addCase(fetchUpdateUser.rejected, (state, action) => {
-        state.loading = false;
-      })
-      .addCase(fetchUpdateUser.fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = action.payload.user;
       })
       .addCase(fetchUpdatePassword.pending, (state, action) => {
         state.loading = true;

@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "../../services/store";
 import { Form, FormikProvider, useFormik } from "formik";
-import { fetchUpdateUser } from "../../services/store/actions/users";
 import { useSnackbar } from "notistack";
 import { AuthSliceProps, stopLoading } from "../../services/store/slices/auth";
 import { LoadingButton } from "@mui/lab";
@@ -29,23 +28,7 @@ const ProfileForm = () => {
     },
     enableReinitialize: true,
     onSubmit: async (values) => {
-      const payload = {
-        id: user.id || 0,
-        name: values.firstName + " " + values.lastName || "",
-        email: values.email || "",
-      };
-      try {
-        const response: any = await dispatch(fetchUpdateUser(payload));
-        if (response.meta.requestStatus === "fulfilled") {
-          enqueueSnackbar(response.payload.message, { variant: "success" });
-        } else {
-          enqueueSnackbar(response.payload.message, { variant: "error" });
-        }
-      } catch (error: any) {
-        dispatch(stopLoading());
-        enqueueSnackbar("Ocorreu um erro.", { variant: "error" });
-        console.log(error);
-      }
+      console.log(values)
     },
   });
 

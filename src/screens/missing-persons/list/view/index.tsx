@@ -14,65 +14,26 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import {
-  fetchMissingPersons,
-  MissingPersonsPayloadProps,
-} from "../../../../services/store/actions/users";
+  fetchPersons as fetchMissingPersons,
+  PersonsPayloadProps,
+  PersonResponseProps,
+} from "../../../../services/store/actions/persons";
 import { dispatch } from "../../../../services/store";
 import { useSnackbar } from "notistack";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 
-// Interfaces
-export interface OcorrenciaEntrevDesapDTO {
-  informacao: string;
-  vestimentasDesaparecido: string;
-}
-
-export interface UltimaOcorrencia {
-  dtDesaparecimento: string;
-  dataLocalizacao: string | null;
-  encontradoVivo: boolean;
-  localDesaparecimentoConcat: string;
-  ocorrenciaEntrevDesapDTO: OcorrenciaEntrevDesapDTO;
-  listaCartaz: string[] | null;
-  ocoId: number;
-}
-
-export interface PessoaDesaparecida {
-  id: number;
-  nome: string;
-  idade: number;
-  sexo: "MASCULINO" | "FEMININO" | string;
-  vivo: boolean;
-  urlFoto: string;
-  ultimaOcorrencia: UltimaOcorrencia;
-}
-
-// Schema de validação
-const validationSchema = Yup.object({
-  nome: Yup.string().optional(),
-  faixaIdadeInicial: Yup.number().min(0, "Idade mínima inválida").optional(),
-  faixaIdadeFinal: Yup.number()
-    .min(Yup.ref("faixaIdadeInicial"), "Final deve ser maior que inicial")
-    .optional(),
-  sexo: Yup.string().oneOf(["MASCULINO", "FEMININO", ""], "Sexo inválido"),
-  status: Yup.string().oneOf(["DESAPARECIDO", "ENCONTRADO", ""], "Status inválido"),
-  pagina: Yup.number().min(0).required(),
-  porPagina: Yup.number().min(1).required(),
-});
-
 const View = () => {
-  const [missingPersons, setMissingPersons] = useState<PessoaDesaparecida[]>([]);
+  const [missingPersons, setMissingPersons] = useState<PersonResponseProps[]>([]);
   const { enqueueSnackbar } = useSnackbar();
   const [total, setTotal] = useState(0);
 
-  // paginação
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const navigate = useNavigate();
 
-  const getMissingPersons = async (filters: MissingPersonsPayloadProps) => {
+  const getMissingPersons = async (filters: PersonsPayloadProps) => {
     try {
       const response: any = await dispatch(fetchMissingPersons(filters));
       if (response.meta.requestStatus === "fulfilled") {
@@ -87,6 +48,16 @@ const View = () => {
     }
   };
 
+  const validationSchema = Yup.object({
+    nome: Yup.string().optional(),
+    faixaIdadeInicial: Yup.number().min(0, "Idade mínima inválida").optional(),
+    faixaIdadeFinal: Yup.number()
+      .min(Yup.ref("faixaIdadeInicial"), "Final deve ser maior que inicial")
+      .optional(),
+    sexo: Yup.string().oneOf(["MASCULINO", "FEMININO", ""], "Sexo inválido"),
+    status: Yup.string().oneOf(["DESAPARECIDO", "ENCONTRADO", ""], "Status inválido"),
+  });
+
   const formik = useFormik({
     initialValues: {
       nome: "",
@@ -94,8 +65,6 @@ const View = () => {
       faixaIdadeFinal: 0,
       sexo: "",
       status: "",
-      pagina: page,
-      porPagina: rowsPerPage,
     },
     validationSchema,
     onSubmit: (values) => {
@@ -107,7 +76,6 @@ const View = () => {
     },
   });
 
-  // sincroniza filtros + paginação
   useEffect(() => {
     getMissingPersons({
       ...formik.values,
@@ -124,10 +92,9 @@ const View = () => {
           Pessoas Desaparecidas
         </Typography>
 
-        {/* Formulário de filtros */}
         <form onSubmit={formik.handleSubmit}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={4} md={3}>
+          <Grid container spacing={2} alignItems="stretch">
+            <Grid item xs={12} sm={3}>
               <TextField
                 label="Nome"
                 name="nome"
@@ -188,8 +155,14 @@ const View = () => {
                 <MenuItem value="ENCONTRADO">Encontrado</MenuItem>
               </TextField>
             </Grid>
-            <Grid item xs={12} sm={2}>
-              <Button type="submit" variant="contained" fullWidth sx={{ height: "100%" }}>
+
+            {/* Botão alinhado com os inputs */}
+            <Grid item xs={12} sm="auto">
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{ height: "100%", whiteSpace: "nowrap" }}
+              >
                 Buscar
               </Button>
             </Grid>
@@ -199,12 +172,11 @@ const View = () => {
         {/* Cards */}
         <Grid container spacing={4} sx={{ mt: 3 }}>
           {missingPersons.map((missingPerson) => (
-            <Grid item xs={12} sm={6} md={4} key={missingPerson.id}>
+            <Grid item xs={12} sm={3} md={3} key={missingPerson.id}>
               <Card
                 sx={{
                   backgroundColor: "#ffffff",
                   boxShadow: 4,
-                  borderRadius: 2,
                   overflow: "hidden",
                   cursor: "pointer",
                   transition: "transform 0.2s, box-shadow 0.2s",
@@ -218,7 +190,10 @@ const View = () => {
                 <CardMedia
                   component="img"
                   height="280"
-                  image={missingPerson.urlFoto}
+                  image={
+                    missingPerson.urlFoto ||
+                    "https://as2.ftcdn.net/v2/jpg/15/53/26/51/1000_F_1553265112_RNli3JfXSGyxux8O33TmiZwN83c4B8K8.jpg"
+                  }
                   alt={`Foto de ${missingPerson.nome}`}
                   sx={{ objectFit: "cover" }}
                 />
@@ -232,9 +207,9 @@ const View = () => {
                   </Typography>
                   <Typography variant="body1" sx={{ color: "error.main" }}>
                     Desaparecida em:{" "}
-                    {new Date(
-                      missingPerson.ultimaOcorrencia.dtDesaparecimento
-                    ).toLocaleDateString("pt-BR")}
+                    {new Date(missingPerson.ultimaOcorrencia.dtDesaparecimento).toLocaleDateString(
+                      "pt-BR"
+                    )}
                   </Typography>
                 </CardContent>
               </Card>

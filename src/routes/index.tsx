@@ -6,7 +6,6 @@ import Home from "../screens/home";
 import { Login } from "../screens/unauthenticated/login";
 import GuestUser from "../guards/GuestUser";
 import UserGuard from "../guards/UserGuard";
-import UsersList from "../screens/users";
 import Recovery from "../screens/unauthenticated/recovery";
 import MissingPersons from "../screens/missing-persons/list";
 import MissingPerson from "../screens/missing-persons/details";
