@@ -23,30 +23,11 @@ import { useSnackbar } from "notistack";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { PersonsViewProps } from "../model";
 
-const View = () => {
-  const [persons, setpersons] = useState<PersonResponseProps[]>([]);
-  const { enqueueSnackbar } = useSnackbar();
-  const [total, setTotal] = useState(0);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const navigate = useNavigate();
-
-  const getpersons = async (filters: PersonsPayloadProps) => {
-    try {
-      const response: any = await dispatch(fetchPersons(filters));
-      if (response.meta.requestStatus === "fulfilled") {
-        setpersons(response.payload.content);
-        setTotal(response.payload.totalElements);
-      } else {
-        enqueueSnackbar(response.payload.message, { variant: "error" });
-      }
-    } catch (error: any) {
-      enqueueSnackbar("Ocorreu um erro.", { variant: "error" });
-      console.log(error);
-    }
-  };
-
+const View = ({getPersons, persons, page, rowsPerPage, setPage, setRowsPerPage, setTotal, total}: PersonsViewProps) => {
+  const navigate = useNavigate()
+  
   const validationSchema = Yup.object({
     nome: Yup.string().optional(),
     faixaIdadeInicial: Yup.number().min(0, "Idade mínima inválida").optional(),
@@ -67,7 +48,7 @@ const View = () => {
     },
     validationSchema,
     onSubmit: (values) => {
-      getpersons({
+      getPersons({
         ...values,
         pagina: page,
         porPagina: rowsPerPage,
@@ -76,7 +57,7 @@ const View = () => {
   });
 
   useEffect(() => {
-    getpersons({
+    getPersons({
       ...formik.values,
       pagina: page,
       porPagina: rowsPerPage,

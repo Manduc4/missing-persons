@@ -16,69 +16,10 @@ import { dispatch } from "../../../../services/store";
 import { fetchPerson, updatePersonOccurence } from "../../../../services/store/actions/persons";
 import { Formik, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
+import { FormValues, PersonViewProps } from "../model";
 
-// Interfaces
-export interface OcorrenciaEntrevDesapDTO {
-  informacao: string;
-  vestimentasDesaparecido: string;
-}
-
-export interface UltimaOcorrencia {
-  dtDesaparecimento: string;
-  dataLocalizacao: string | null;
-  encontradoVivo: boolean;
-  localDesaparecimentoConcat: string;
-  ocorrenciaEntrevDesapDTO: OcorrenciaEntrevDesapDTO;
-  listaCartaz: string[] | null;
-  ocoId: number;
-}
-
-export interface PessoaDesaparecida {
-  id: number;
-  nome: string;
-  idade: number;
-  sexo: "MASCULINO" | "FEMININO" | string;
-  vivo: boolean;
-  urlFoto: string;
-  ultimaOcorrencia: UltimaOcorrencia;
-}
-
-interface FormValues {
-  informacao: string;
-  data: string;
-}
-
-const DetalhesPessoa = () => {
+const View = ({getPerson, getPersonOccurrence, person, updatePersonOccurrence}: PersonViewProps) => {
   const { id } = useParams<{ id: string }>();
-  const [person, setPerson] = useState<PessoaDesaparecida | null>(null);
-  const { enqueueSnackbar } = useSnackbar();
-  const navigate = useNavigate();
-
-  const getPersonDetails = async (id: number) => {
-    try {
-      const response: any = await dispatch(fetchPerson({ id }));
-      if (response.meta.requestStatus === "fulfilled") {
-        setPerson(response.payload);
-      } else {
-        enqueueSnackbar(response.payload.message, { variant: "error" });
-      }
-    } catch (error) {
-      enqueueSnackbar("Erro ao carregar detalhes.", { variant: "error" });
-    }
-  };
-
-    const updatePerson = async (id: number) => {
-    try {
-      const response: any = await dispatch(updatePersonOccurence({ id }));
-      if (response.meta.requestStatus === "fulfilled") {
-        setPerson(response.payload);
-      } else {
-        enqueueSnackbar(response.payload.message, { variant: "error" });
-      }
-    } catch (error) {
-      enqueueSnackbar("Erro ao carregar detalhes.", { variant: "error" });
-    }
-  };
 
   const formikConfig = {
     initialValues: {
@@ -91,13 +32,13 @@ const DetalhesPessoa = () => {
     }),
     onSubmit: (values: FormValues, { resetForm }: FormikHelpers<FormValues>) => {
       if (person) {
-        updatePerson(person.ultimaOcorrencia.ocoId)
+        updatePersonOccurrence(person.ultimaOcorrencia.ocoId)
       }
     },
   };
 
   useEffect(() => {
-    if (id) getPersonDetails(Number(id));
+    if (id) getPerson(Number(id));
   }, [id]);
 
   if (!person) {
@@ -110,10 +51,6 @@ const DetalhesPessoa = () => {
 
   return (
     <Container sx={{ mt: 4, mb: 6 }}>
-      <Button variant="outlined" onClick={() => navigate(-1)} sx={{ mb: 3 }}>
-        Voltar
-      </Button>
-
       <Grid container spacing={4}>
         <Grid item xs={12} md={5}>
           <Card sx={{ boxShadow: 4, borderRadius: 3, overflow: "hidden" }}>
@@ -199,7 +136,6 @@ const DetalhesPessoa = () => {
                 />
               </Grid>
 
-              {/* Formulário Formik */}
               <Grid item xs={12}>
                 <Typography variant="h6" sx={{ mb: 2, mt: 2, fontWeight: "bold" }}>
                   Adicionar informações da ocorrência
@@ -254,4 +190,4 @@ const DetalhesPessoa = () => {
   );
 };
 
-export default DetalhesPessoa;
+export default View;
