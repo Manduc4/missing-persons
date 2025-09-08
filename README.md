@@ -1,4 +1,28 @@
-# Arcano
+# React Frontend com Docker
 
-Desenvolvi este projeto durante meu aprendizado dos processos de autenticação no Laravel.
-O Frontend está funcionando normalmente, no entanto, a API está momentaneamente fora do ar.
+Este projeto contém uma aplicação **React** configurada para rodar dentro de containers **Docker**, tanto em modo de desenvolvimento quanto em produção.
+
+---
+
+## 🚀 Pré-requisitos
+
+Antes de começar, verifique se você possui os seguintes softwares instalados:
+
+- [Git](https://git-scm.com/downloads)
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+---
+
+## 📥 Instalação
+
+### 1. Clonar o repositório
+```bash
+git clone https://github.com/seu-usuario/seu-repo.git
+cd seu-repo
+```
+
+### 2. Construir o container
+```bash
+docker-compose up --build
+```
