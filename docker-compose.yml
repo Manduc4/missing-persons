@@ -1,0 +1,9 @@
+version: '3.1'
+
+services:
+  frontend:
+    build: .
+    container_name: missing-persons-frontend
+    restart: always
+    ports:
+      - '3000:3000'

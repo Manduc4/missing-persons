@@ -24,10 +24,20 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { PersonsViewProps } from "../model";
+import { getPersonUrl } from "../../../../utils/getPersonUrl";
 
-const View = ({getPersons, persons, page, rowsPerPage, setPage, setRowsPerPage, setTotal, total}: PersonsViewProps) => {
-  const navigate = useNavigate()
-  
+const View = ({
+  getPersons,
+  persons,
+  page,
+  rowsPerPage,
+  setPage,
+  setRowsPerPage,
+  setTotal,
+  total,
+}: PersonsViewProps) => {
+  const navigate = useNavigate();
+
   const validationSchema = Yup.object({
     nome: Yup.string().optional(),
     faixaIdadeInicial: Yup.number().min(0, "Idade mínima inválida").optional(),
@@ -35,7 +45,10 @@ const View = ({getPersons, persons, page, rowsPerPage, setPage, setRowsPerPage, 
       .min(Yup.ref("faixaIdadeInicial"), "Final deve ser maior que inicial")
       .optional(),
     sexo: Yup.string().oneOf(["MASCULINO", "FEMININO", ""], "Sexo inválido"),
-    status: Yup.string().oneOf(["DESAPARECIDO", "ENCONTRADO", ""], "Status inválido"),
+    status: Yup.string().oneOf(
+      ["DESAPARECIDO", "ENCONTRADO", ""],
+      "Status inválido"
+    ),
   });
 
   const formik = useFormik({
@@ -67,13 +80,13 @@ const View = ({getPersons, persons, page, rowsPerPage, setPage, setRowsPerPage, 
 
   return (
     <div style={{ minHeight: "100vh" }}>
-      <Container sx={{ mt: 4 }}>
-        <Typography variant="h4" sx={{ mb: 3 }}>
+      <Container maxWidth="lg" sx={{ mt: 4 }}>
+        <Typography variant="h2" sx={{ mb: 3 }}>
           Desaparecidos
         </Typography>
 
         <form onSubmit={formik.handleSubmit}>
-          <Grid container spacing={2} alignItems="stretch">
+          <Grid container spacing={2} alignItems="center">
             <Grid item xs={12} sm={2}>
               <TextField
                 label="Nome"
@@ -136,24 +149,29 @@ const View = ({getPersons, persons, page, rowsPerPage, setPage, setRowsPerPage, 
               </TextField>
             </Grid>
             <Grid item xs={12} sm={1} md={2}>
-              <Button
-                type="submit"
-                variant="contained"
-              >
+              <Button type="submit" variant="contained" fullWidth size="large">
                 Buscar
               </Button>
             </Grid>
-
           </Grid>
         </form>
 
         {/* Cards */}
-        <Grid container spacing={4} sx={{ mt: 3 }}>
+        <Grid container spacing={4} sx={{ mt: 3 }} alignItems="stretch">
           {persons.map((missingPerson) => (
-            <Grid item xs={12} sm={6} md={3} key={missingPerson.id}>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              lg={3}
+              key={missingPerson.id}
+              sx={{ height: '100%' }}
+            >
               <Card
                 sx={{
                   backgroundColor: "#ffffff",
+                  borderRadius: 0,
                   boxShadow: 4,
                   overflow: "hidden",
                   cursor: "pointer",
@@ -162,21 +180,27 @@ const View = ({getPersons, persons, page, rowsPerPage, setPage, setRowsPerPage, 
                     transform: "scale(1.02)",
                     boxShadow: 8,
                   },
+                  maxWidth: "350px"
                 }}
                 onClick={() => navigate(`/${missingPerson.id}`)}
               >
                 <CardMedia
                   component="img"
-                  height="200"
+                  height="280px"
                   image={
-                    missingPerson.urlFoto ||
-                    "https://as2.ftcdn.net/v2/jpg/15/53/26/51/1000_F_1553265112_RNli3JfXSGyxux8O33TmiZwN83c4B8K8.jpg"
+                    getPersonUrl(missingPerson)
                   }
                   alt={`Foto de ${missingPerson.nome}`}
                   sx={{ objectFit: "cover" }}
                 />
                 <CardContent>
-                  <Typography variant="h6" sx={{ fontWeight: "bold", color: "#1a237e" }}>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontWeight: "bold",
+                      color: "#000000",
+                    }}
+                  >
                     {missingPerson.nome}
                   </Typography>
                   <Divider sx={{ my: 1 }} />
@@ -184,10 +208,10 @@ const View = ({getPersons, persons, page, rowsPerPage, setPage, setRowsPerPage, 
                     Idade: <strong>{missingPerson.idade} anos</strong>
                   </Typography>
                   <Typography variant="body1" sx={{ color: "error.main" }}>
-                    Desaparecida em:{" "}
-                    {new Date(missingPerson.ultimaOcorrencia.dtDesaparecimento).toLocaleDateString(
-                      "pt-BR"
-                    )}
+                    Desaparecimento:{" "}
+                    {new Date(
+                      missingPerson.ultimaOcorrencia.dtDesaparecimento
+                    ).toLocaleDateString("pt-BR")}
                   </Typography>
                 </CardContent>
               </Card>

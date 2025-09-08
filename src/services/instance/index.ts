@@ -4,7 +4,6 @@ export const axiosInstance = axios.create({
   baseURL: 'https://abitus-api.geia.vip/',
   timeout: 36000,
   headers: {
-    'Content-Type': 'application/json',
-    Accept: 'application/json'
+    'Content-Type': 'multipart/form-data'
   }
 });

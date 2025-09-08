@@ -29,7 +29,7 @@ export function createTheme() {
     // @ts-ignore
     typography,
     shape: {
-      borderRadius: 8
+      borderRadius: 0
     },
   });
 }

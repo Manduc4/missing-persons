@@ -66,12 +66,10 @@ export interface UpdatePersonOccurenceResponseProps {
     ocoId: number;
     informacao: string;
     data: string;
-    id: number;
-    anexos: string[];
 }
 
-export interface UpdatePersonOccurrencePayloadProps {
-    id: number
+export interface PersonOccurencePayloadProps {
+    ocorrenciaId: number
 }
 
 export const fetchPersons = createAsyncThunk<PersonsResponseProps, PersonsPayloadProps>(
@@ -119,14 +117,21 @@ export const fetchPerson = createAsyncThunk<PersonResponseProps, PersonPayloadPr
     }
 );
 
-export const updatePersonOccurence = createAsyncThunk<UpdatePersonOccurenceResponseProps, UpdatePersonOccurrencePayloadProps>(
+export const updatePersonOccurence = createAsyncThunk<UpdatePersonOccurenceResponseProps, UpdatePersonOccurenceResponseProps>(
     "persons.updatePersonOccurence",
     async (data, { rejectWithValue }) => {
         try {
             const api = axiosInstance;
+            const searchParams = new URLSearchParams()
+
+            Object.entries(data).forEach(([key, value]) => {
+                if (value !== undefined && value !== null && value !== "") {
+                    searchParams.append(key, String(value));
+                }
+            });
 
             const response = await api({
-                baseURL: `${process.env.REACT_APP_BASE_URL}${endpoints.personOccurence}/${data.id}`,
+                baseURL: `${process.env.REACT_APP_BASE_URL}${endpoints.personOccurence}?${searchParams.toString()}`,
                 method: "POST",
                 data,
             });
@@ -138,14 +143,21 @@ export const updatePersonOccurence = createAsyncThunk<UpdatePersonOccurenceRespo
     }
 );
 
-export const fetchPersonOccurence = createAsyncThunk<UpdatePersonOccurenceResponseProps>(
+export const fetchPersonOccurence = createAsyncThunk<UpdatePersonOccurenceResponseProps, PersonOccurencePayloadProps>(
     "persons.fetchPersonOccurence",
     async (data, { rejectWithValue }) => {
         try {
             const api = axiosInstance;
+            const searchParams = new URLSearchParams()
+
+            Object.entries(data).forEach(([key, value]) => {
+                if (value !== undefined && value !== null && value !== "") {
+                    searchParams.append(key, String(value));
+                }
+            });
 
             const response = await api({
-                baseURL: `${process.env.REACT_APP_BASE_URL}${endpoints.personOccurence}`,
+                baseURL: `${process.env.REACT_APP_BASE_URL}${endpoints.personOccurence}?${searchParams.toString()}`,
                 method: "GET",
                 data,
             });

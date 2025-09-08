@@ -6,11 +6,6 @@ import {
 } from "@reduxjs/toolkit";
 import { axiosInstance } from "../../instance";
 import endpoints from "../../requests/endpoints";
-import {
-  fetchCreateUser,
-  fetchRecovery,
-  fetchUpdatePassword,
-} from "../actions/users";
 
 export interface AuthSliceProps {
   signed: boolean;
@@ -64,7 +59,7 @@ export const fetchLogin = createAsyncThunk<
   try {
     const api = axiosInstance;
     const response = await api({
-      baseURL: process.env.REACT_APP_BASE_URL + endpoints.login,
+      baseURL: process.env.REACT_APP_BASE_URL,
       method: "POST",
       data,
     });
@@ -85,7 +80,7 @@ export const logout = createAsyncThunk<LogoutResponseProps>(
     try {
       const api = axiosInstance;
       const response = await api({
-        baseURL: process.env.REACT_APP_BASE_URL + endpoints.logout,
+        baseURL: process.env.REACT_APP_BASE_URL,
         method: "GET",
       });
 
@@ -129,35 +124,6 @@ const authSlice = createSlice({
         state.signed = false;
         state.user.name = "";
         state.user.email = "";
-      })
-      .addCase(fetchCreateUser.pending, (state, action) => {
-        state.loading = true;
-      })
-      .addCase(fetchCreateUser.rejected, (state, action) => {
-        state.loading = false;
-        state.signed = true;
-      })
-      .addCase(fetchCreateUser.fulfilled, (state, action) => {
-        state.loading = false;
-        state.signed = false;
-      })
-      .addCase(fetchUpdatePassword.pending, (state, action) => {
-        state.loading = true;
-      })
-      .addCase(fetchUpdatePassword.rejected, (state, action) => {
-        state.loading = false;
-      })
-      .addCase(fetchUpdatePassword.fulfilled, (state, action) => {
-        state.loading = false;
-      })
-      .addCase(fetchRecovery.pending, (state, action) => {
-        state.loading = true;
-      })
-      .addCase(fetchRecovery.rejected, (state, action) => {
-        state.loading = false;
-      })
-      .addCase(fetchRecovery.fulfilled, (state, action) => {
-        state.loading = false;
       })
       .addCase(stopLoading, (state, action) => {
         state.loading = false;

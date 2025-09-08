@@ -1,5 +1,5 @@
 {
-  "name": "projeto-final",
+  "name": "missing-persons",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -9,6 +9,7 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/lab": "^5.0.0-alpha.134",
     "@mui/material": "^5.11.16",
+    "@mui/x-date-pickers": "5.0.16",
     "@reduxjs/toolkit": "^1.9.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -24,6 +25,7 @@
     "chart.js": "4",
     "chartjs": "^0.3.24",
     "date-fns": "^2.30.0",
+    "dayjs": "^1.11.18",
     "formik": "^2.4.2",
     "jwt-decode": "^3.1.2",
     "notistack": "^3.0.1",
