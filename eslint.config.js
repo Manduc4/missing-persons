@@ -1,31 +1,36 @@
 module.exports = {
-  root: true,
+  env: {
+    browser: true,
+    es2021: true,
+  },
   parser: "@typescript-eslint/parser",
   parserOptions: {
-    ecmaVersion: 2020,
+    ecmaFeatures: { jsx: true },
+    ecmaVersion: "latest",
     sourceType: "module",
-    ecmaFeatures: {
-      jsx: true,
-    },
   },
-  plugins: ["@typescript-eslint", "react", "react-hooks", "prettier", "jsx-a11y"],
+  plugins: ["react", "@typescript-eslint", "prettier", "unused-imports"],
+  
   extends: [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:jsx-a11y/recommended",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
   ],
   rules: {
-    "prettier/prettier": ["error"],
-    "react/react-in-jsx-scope": "off", // React 17+ não precisa importar React
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/no-explicit-any": "off",
+    "prettier/prettier": "error",
+
+    // Remove imports não usados
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
+    ],
+
+    // Remove warnings do TypeScript sobre variáveis não usadas
+    "@typescript-eslint/no-unused-vars": "off",
   },
   settings: {
-    react: {
-      version: "detect",
-    },
+    react: { version: "detect" },
   },
 };
