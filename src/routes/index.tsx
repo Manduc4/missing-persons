@@ -1,20 +1,20 @@
-import { Navigate, useRoutes, useLocation } from "react-router-dom";
-import { Layout } from "../layouts/main";
-import { Suspense, lazy } from "react";
-import { Box, CircularProgress } from "@mui/material";
-import { AnimatePresence, motion } from "framer-motion";
+import { Navigate, useRoutes, useLocation } from 'react-router-dom';
+import { Layout } from '../layouts/main';
+import { Suspense, lazy } from 'react';
+import { Box, CircularProgress } from '@mui/material';
+import { AnimatePresence, motion } from 'framer-motion';
 
-const NotFound = lazy(() => import("../screens/404"));
-const Persons = lazy(() => import("../screens/persons/list"));
-const Person = lazy(() => import("../screens/persons/details"));
+const NotFound = lazy(() => import('../screens/404'));
+const Persons = lazy(() => import('../screens/persons/list'));
+const Person = lazy(() => import('../screens/persons/details'));
 
 const Loader = () => (
   <Box
     sx={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      height: "100vh",
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '100vh',
     }}
   >
     <CircularProgress />
@@ -27,7 +27,7 @@ const MotionWrapper = ({ children }: { children: React.ReactNode }) => (
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0, y: -20 }}
     transition={{ duration: 0.4 }}
-    style={{ width: "100%" }}
+    style={{ width: '100%' }}
   >
     {children}
   </motion.div>
@@ -38,11 +38,11 @@ export default function Router() {
 
   const routes = useRoutes([
     {
-      path: "/",
+      path: '/',
       element: <Layout />,
       children: [
         {
-          path: "/",
+          path: '/',
           element: (
             <Suspense fallback={<Loader />}>
               <MotionWrapper>
@@ -52,7 +52,7 @@ export default function Router() {
           ),
         },
         {
-          path: "/:id",
+          path: '/:id',
           element: (
             <Suspense fallback={<Loader />}>
               <MotionWrapper>
@@ -64,11 +64,11 @@ export default function Router() {
       ],
     },
     {
-      path: "*",
+      path: '*',
       element: <Navigate to="/404" replace />,
     },
     {
-      path: "/404",
+      path: '/404',
       element: (
         <Suspense fallback={<Loader />}>
           <MotionWrapper>

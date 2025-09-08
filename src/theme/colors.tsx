@@ -6,8 +6,8 @@ const withAlphas = (color: any) => {
     alpha4: alpha(color.main, 0.04),
     alpha8: alpha(color.main, 0.08),
     alpha12: alpha(color.main, 0.12),
-    alpha30: alpha(color.main, 0.30),
-    alpha50: alpha(color.main, 0.50)
+    alpha30: alpha(color.main, 0.3),
+    alpha50: alpha(color.main, 0.5),
   };
 };
 
@@ -21,16 +21,16 @@ export const neutral = {
   600: '#616161',
   700: '#424242',
   800: '#212121',
-  900: '#000000'
+  900: '#000000',
 };
 
 export const primary = withAlphas({
   lightest: '#F5F5F5',
   light: '#A3A3A3',
-  main: '#000000',      // preto principal
+  main: '#000000', // preto principal
   dark: '#000000',
   darkest: '#000000',
-  contrastText: '#FFFFFF'
+  contrastText: '#FFFFFF',
 });
 
 export const success = withAlphas({
@@ -39,7 +39,7 @@ export const success = withAlphas({
   main: '#10B981',
   dark: '#0B815A',
   darkest: '#134E48',
-  contrastText: '#FFFFFF'
+  contrastText: '#FFFFFF',
 });
 
 export const info = withAlphas({
@@ -48,7 +48,7 @@ export const info = withAlphas({
   main: '#06AED4',
   dark: '#0E7090',
   darkest: '#164C63',
-  contrastText: '#FFFFFF'
+  contrastText: '#FFFFFF',
 });
 
 export const warning = withAlphas({
@@ -57,7 +57,7 @@ export const warning = withAlphas({
   main: '#F79009',
   dark: '#B54708',
   darkest: '#7A2E0E',
-  contrastText: '#FFFFFF'
+  contrastText: '#FFFFFF',
 });
 
 export const error = withAlphas({
@@ -66,5 +66,5 @@ export const error = withAlphas({
   main: '#F04438',
   dark: '#B42318',
   darkest: '#7A271A',
-  contrastText: '#FFFFFF'
+  contrastText: '#FFFFFF',
 });

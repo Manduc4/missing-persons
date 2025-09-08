@@ -17,8 +17,8 @@ export function createTheme() {
         sm: 600,
         md: 900,
         lg: 1200,
-        xl: 1440
-      }
+        xl: 1440,
+      },
     },
     // @ts-ignore
     components,
@@ -29,7 +29,7 @@ export function createTheme() {
     // @ts-ignore
     typography,
     shape: {
-      borderRadius: 0
+      borderRadius: 0,
     },
   });
 }

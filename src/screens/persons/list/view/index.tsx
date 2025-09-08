@@ -12,14 +12,14 @@ import {
   Button,
   TablePagination,
   Chip,
-} from "@mui/material";
-import { useEffect } from "react";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
-import { PersonsViewProps } from "../model";
-import { getPersonUrl } from "../../../../utils/getPersonUrl";
-import { PersonResponseProps } from "../../../../services/store/actions/persons";
+} from '@mui/material';
+import { useEffect } from 'react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom';
+import { PersonsViewProps } from '../model';
+import { getPersonUrl } from '../../../../utils/getPersonUrl';
+import { PersonResponseProps } from '../../../../services/store/actions/persons';
 
 const View = ({
   getPersons,
@@ -35,24 +35,24 @@ const View = ({
 
   const validationSchema = Yup.object({
     nome: Yup.string().optional(),
-    faixaIdadeInicial: Yup.number().min(0, "Idade mínima inválida").optional(),
+    faixaIdadeInicial: Yup.number().min(0, 'Idade mínima inválida').optional(),
     faixaIdadeFinal: Yup.number()
-      .min(Yup.ref("faixaIdadeInicial"), "Final deve ser maior que inicial")
+      .min(Yup.ref('faixaIdadeInicial'), 'Final deve ser maior que inicial')
       .optional(),
-    sexo: Yup.string().oneOf(["MASCULINO", "FEMININO", ""], "Sexo inválido"),
+    sexo: Yup.string().oneOf(['MASCULINO', 'FEMININO', ''], 'Sexo inválido'),
     status: Yup.string().oneOf(
-      ["DESAPARECIDO", "ENCONTRADO", ""],
-      "Status inválido"
+      ['DESAPARECIDO', 'ENCONTRADO', ''],
+      'Status inválido',
     ),
   });
 
   const formik = useFormik({
     initialValues: {
-      nome: "",
+      nome: '',
       faixaIdadeInicial: 0,
       faixaIdadeFinal: 0,
-      sexo: "",
-      status: "",
+      sexo: '',
+      status: '',
     },
     validationSchema,
     onSubmit: (values) => {
@@ -62,13 +62,13 @@ const View = ({
         pagina: 0,
         porPagina: rowsPerPage,
       });
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     },
   });
 
   useEffect(() => {
     // Sempre que mudar de página ou quantidade de linhas, rola para o topo
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
     getPersons({
       ...formik.values,
@@ -79,7 +79,7 @@ const View = ({
   }, [page, rowsPerPage]);
 
   return (
-    <div style={{ minHeight: "100vh" }}>
+    <div style={{ minHeight: '100vh' }}>
       <Container maxWidth="lg" sx={{ mt: 4 }}>
         <Typography variant="h2" sx={{ mb: 3 }}>
           Desaparecidos
@@ -161,16 +161,16 @@ const View = ({
           {persons.map((missingPerson) => {
             const statusLabel = missingPerson.ultimaOcorrencia.dataLocalizacao
               ? missingPerson.ultimaOcorrencia.encontradoVivo
-                ? "Encontrado com vida"
-                : "Encontrado sem vida"
-              : "Desaparecido";
+                ? 'Encontrado com vida'
+                : 'Encontrado sem vida'
+              : 'Desaparecido';
 
             const statusColor =
-              statusLabel === "Desaparecido"
-                ? "warning"
-                : statusLabel === "Encontrado com vida"
-                  ? "success"
-                  : "error";
+              statusLabel === 'Desaparecido'
+                ? 'warning'
+                : statusLabel === 'Encontrado com vida'
+                  ? 'success'
+                  : 'error';
 
             return (
               <Grid
@@ -180,21 +180,21 @@ const View = ({
                 md={4}
                 lg={3}
                 key={missingPerson.id}
-                sx={{ height: "100%" }}
+                sx={{ height: '100%' }}
               >
                 <Card
                   sx={{
-                    backgroundColor: "#ffffff",
+                    backgroundColor: '#ffffff',
                     borderRadius: 0,
                     boxShadow: 4,
-                    overflow: "hidden",
-                    cursor: "pointer",
-                    transition: "transform 0.2s, box-shadow 0.2s",
-                    "&:hover": {
-                      transform: "scale(1.02)",
+                    overflow: 'hidden',
+                    cursor: 'pointer',
+                    transition: 'transform 0.2s, box-shadow 0.2s',
+                    '&:hover': {
+                      transform: 'scale(1.02)',
                       boxShadow: 8,
                     },
-                    maxWidth: "350px",
+                    maxWidth: '350px',
                   }}
                   onClick={() => navigate(`/${missingPerson.id}`)}
                 >
@@ -203,7 +203,7 @@ const View = ({
                     height="280px"
                     image={getPersonUrl(missingPerson)}
                     alt={`Foto de ${missingPerson.nome}`}
-                    sx={{ objectFit: "cover" }}
+                    sx={{ objectFit: 'cover' }}
                   />
                   <CardContent>
                     {/* Status abaixo da imagem */}
@@ -211,8 +211,8 @@ const View = ({
                     <Typography
                       variant="h6"
                       sx={{
-                        fontWeight: "bold",
-                        color: "#000000",
+                        fontWeight: 'bold',
+                        color: '#000000',
                       }}
                     >
                       {missingPerson.nome}
@@ -221,11 +221,11 @@ const View = ({
                     <Typography variant="body1" color="text.primary">
                       Idade: <strong>{missingPerson.idade} anos</strong>
                     </Typography>
-                    <Typography variant="body1" sx={{ color: "error.main" }}>
-                      Desaparecimento:{" "}
+                    <Typography variant="body1" sx={{ color: 'error.main' }}>
+                      Desaparecimento:{' '}
                       {new Date(
-                        missingPerson.ultimaOcorrencia.dtDesaparecimento
-                      ).toLocaleDateString("pt-BR")}
+                        missingPerson.ultimaOcorrencia.dtDesaparecimento,
+                      ).toLocaleDateString('pt-BR')}
                     </Typography>
                     <Chip
                       label={statusLabel}
@@ -239,7 +239,7 @@ const View = ({
           })}
         </Grid>
 
-        <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
           <TablePagination
             component="div"
             count={total}

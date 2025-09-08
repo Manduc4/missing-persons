@@ -1,4 +1,7 @@
-import { PersonResponseProps, UpdatePersonOccurenceResponseProps } from "../../../../services/store/actions/persons";
+import {
+  PersonResponseProps,
+  UpdatePersonOccurenceResponseProps,
+} from '../../../../services/store/actions/persons';
 
 export interface FormValues {
   informacao: string;
@@ -6,9 +9,11 @@ export interface FormValues {
 }
 
 export interface PersonViewProps {
-    person: PersonResponseProps | null
-    getPerson:  (id: number) => Promise<void>,
-    updatePersonOccurrence: (props: UpdatePersonOccurenceResponseProps) => Promise<void>,
-    getPersonOccurrence: (id: number) => Promise<void>,
-    personOccurrence: UpdatePersonOccurenceResponseProps[]
+  person: PersonResponseProps | null;
+  getPerson: (id: number) => Promise<void>;
+  updatePersonOccurrence: (
+    props: UpdatePersonOccurenceResponseProps,
+  ) => Promise<void>;
+  getPersonOccurrence: (id: number) => Promise<void>;
+  personOccurrence: UpdatePersonOccurenceResponseProps[];
 }

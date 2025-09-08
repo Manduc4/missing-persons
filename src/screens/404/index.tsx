@@ -1,10 +1,7 @@
-import View from "./View";
+import View from './View';
 
 const NotFound = () => {
-  return (
-    <View />
-  )
-}
+  return <View />;
+};
 
 export default NotFound;
-

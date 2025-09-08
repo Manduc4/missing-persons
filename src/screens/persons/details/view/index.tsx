@@ -15,17 +15,17 @@ import {
   ListItem,
   ListItemText,
   CardContent,
-} from "@mui/material";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { FormValues, PersonViewProps } from "../model";
-import { getPersonUrl } from "../../../../utils/getPersonUrl";
-import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
-import "dayjs/locale/pt-br";
+} from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { FormValues, PersonViewProps } from '../model';
+import { getPersonUrl } from '../../../../utils/getPersonUrl';
+import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
+import 'dayjs/locale/pt-br';
 
 const View = ({
   getPerson,
@@ -33,28 +33,30 @@ const View = ({
   updatePersonOccurrence,
   getPersonOccurrence,
   personOccurrence = [],
-}: PersonViewProps & { personOccurrence?: { data: string; informacao: string }[] }) => {
+}: PersonViewProps & {
+  personOccurrence?: { data: string; informacao: string }[];
+}) => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [tabValue, setTabValue] = useState(0);
 
   const formik = useFormik<FormValues>({
     initialValues: {
-      informacao: "",
-      data: ""
+      informacao: '',
+      data: '',
     },
     validationSchema: Yup.object({
-      informacao: Yup.string().required("A informação é obrigatória"),
+      informacao: Yup.string().required('A informação é obrigatória'),
       data: Yup.date()
-        .required("A data é obrigatória")
-        .typeError("Data inválida"),
+        .required('A data é obrigatória')
+        .typeError('Data inválida'),
     }),
     onSubmit: (values) => {
       if (person) {
         updatePersonOccurrence({
           ...values,
           ocoId: person.ultimaOcorrencia.ocoId,
-          data: dayjs(values.data).format("YYYY-MM-DD"),
+          data: dayjs(values.data).format('YYYY-MM-DD'),
         });
       }
     },
@@ -65,7 +67,7 @@ const View = ({
 
   useEffect(() => {
     if (!Number(id)) {
-      navigate("/404");
+      navigate('/404');
       return;
     }
     getPerson(Number(id));
@@ -87,22 +89,31 @@ const View = ({
 
   const statusLabel = person.ultimaOcorrencia.dataLocalizacao
     ? person.ultimaOcorrencia.encontradoVivo
-      ? "Encontrado com vida"
-      : "Encontrado sem vida"
-    : "Desaparecido";
+      ? 'Encontrado com vida'
+      : 'Encontrado sem vida'
+    : 'Desaparecido';
 
   const statusColor =
-    statusLabel === "Desaparecido"
-      ? "warning"
-      : statusLabel === "Encontrado com vida"
-      ? "success"
-      : "error";
+    statusLabel === 'Desaparecido'
+      ? 'warning'
+      : statusLabel === 'Encontrado com vida'
+        ? 'success'
+        : 'error';
 
   return (
     <Container maxWidth="lg" sx={{ mt: 4 }}>
-      <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ mb: 3 }}>
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{ mb: 3 }}
+      >
         <Typography variant="h2">Desaparecidos</Typography>
-        <Button variant="contained" color="primary" onClick={() => navigate(-1)}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => navigate(-1)}
+        >
           Voltar
         </Button>
       </Box>
@@ -115,7 +126,12 @@ const View = ({
               component="img"
               image={getPersonUrl(person)}
               alt={person.nome}
-              sx={{ width: "100%", height: 320, objectFit: "cover", borderRadius: 3 }}
+              sx={{
+                width: '100%',
+                height: 320,
+                objectFit: 'cover',
+                borderRadius: 3,
+              }}
             />
           </Card>
         </Grid>
@@ -138,7 +154,11 @@ const View = ({
                 <Typography variant="h4" gutterBottom>
                   {person.nome}
                 </Typography>
-                <Chip label={statusLabel} color={statusColor as any} sx={{ mb: 2 }} />
+                <Chip
+                  label={statusLabel}
+                  color={statusColor as any}
+                  sx={{ mb: 2 }}
+                />
                 <Divider sx={{ my: 2 }} />
                 <Grid container spacing={2}>
                   <Grid item xs={4}>
@@ -164,9 +184,9 @@ const View = ({
                       Data do desaparecimento
                     </Typography>
                     <Typography>
-                      {new Date(person.ultimaOcorrencia.dtDesaparecimento).toLocaleDateString(
-                        "pt-BR"
-                      )}
+                      {new Date(
+                        person.ultimaOcorrencia.dtDesaparecimento,
+                      ).toLocaleDateString('pt-BR')}
                     </Typography>
                   </Grid>
                   {person.ultimaOcorrencia.dataLocalizacao && (
@@ -175,9 +195,9 @@ const View = ({
                         Data da localização
                       </Typography>
                       <Typography>
-                        {new Date(person.ultimaOcorrencia.dataLocalizacao).toLocaleDateString(
-                          "pt-BR"
-                        )}
+                        {new Date(
+                          person.ultimaOcorrencia.dataLocalizacao,
+                        ).toLocaleDateString('pt-BR')}
                       </Typography>
                     </Grid>
                   )}
@@ -185,14 +205,19 @@ const View = ({
                     <Typography variant="subtitle2" color="text.secondary">
                       Local do desaparecimento
                     </Typography>
-                    <Typography>{person.ultimaOcorrencia.localDesaparecimentoConcat}</Typography>
+                    <Typography>
+                      {person.ultimaOcorrencia.localDesaparecimentoConcat}
+                    </Typography>
                   </Grid>
                   <Grid item xs={12}>
                     <Typography variant="subtitle2" color="text.secondary">
                       Vestimentas
                     </Typography>
                     <Typography>
-                      {person.ultimaOcorrencia.ocorrenciaEntrevDesapDTO.vestimentasDesaparecido}
+                      {
+                        person.ultimaOcorrencia.ocorrenciaEntrevDesapDTO
+                          .vestimentasDesaparecido
+                      }
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
@@ -200,7 +225,10 @@ const View = ({
                       Informações adicionais
                     </Typography>
                     <Typography>
-                      {person.ultimaOcorrencia.ocorrenciaEntrevDesapDTO.informacao}
+                      {
+                        person.ultimaOcorrencia.ocorrenciaEntrevDesapDTO
+                          .informacao
+                      }
                     </Typography>
                   </Grid>
                 </Grid>
@@ -225,31 +253,56 @@ const View = ({
                             value={formik.values.informacao}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            error={formik.touched.informacao && Boolean(formik.errors.informacao)}
-                            helperText={formik.touched.informacao && formik.errors.informacao}
+                            error={
+                              formik.touched.informacao &&
+                              Boolean(formik.errors.informacao)
+                            }
+                            helperText={
+                              formik.touched.informacao &&
+                              formik.errors.informacao
+                            }
                           />
                         </Grid>
 
                         <Grid item xs={12}>
-                          <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
+                          <LocalizationProvider
+                            dateAdapter={AdapterDayjs}
+                            adapterLocale="pt-br"
+                          >
                             <DatePicker
                               label="Data"
                               value={formik.values.data}
-                              onChange={(newValue) => formik.setFieldValue("data", newValue)}
+                              onChange={(newValue) =>
+                                formik.setFieldValue('data', newValue)
+                              }
                               renderInput={(params) => (
                                 <TextField
                                   {...params}
                                   fullWidth
-                                  error={formik.touched.data && Boolean(formik.errors.data)}
-                                  helperText={formik.touched.data && formik.errors.data}
+                                  error={
+                                    formik.touched.data &&
+                                    Boolean(formik.errors.data)
+                                  }
+                                  helperText={
+                                    formik.touched.data && formik.errors.data
+                                  }
                                 />
                               )}
                             />
                           </LocalizationProvider>
                         </Grid>
 
-                        <Grid item xs={12} display="flex" justifyContent="flex-end">
-                          <Button type="submit" variant="contained" color="primary">
+                        <Grid
+                          item
+                          xs={12}
+                          display="flex"
+                          justifyContent="flex-end"
+                        >
+                          <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                          >
                             Salvar
                           </Button>
                         </Grid>
@@ -268,13 +321,15 @@ const View = ({
                         Nenhuma ocorrência registrada.
                       </Typography>
                     ) : (
-                      <Box sx={{ maxHeight: 400, overflowY: "auto", pr: 1 }}>
+                      <Box sx={{ maxHeight: 400, overflowY: 'auto', pr: 1 }}>
                         <List>
                           {personOccurrence.map((occ, idx) => (
                             <ListItem key={idx} divider>
                               <ListItemText
                                 primary={occ.informacao}
-                                secondary={new Date(occ.data).toLocaleDateString("pt-BR")}
+                                secondary={new Date(
+                                  occ.data,
+                                ).toLocaleDateString('pt-BR')}
                               />
                             </ListItem>
                           ))}

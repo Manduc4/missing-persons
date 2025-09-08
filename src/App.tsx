@@ -1,9 +1,9 @@
-import { SnackbarProvider } from "notistack";
-import Router from "./routes";
-import { createTheme } from "./theme";
-import { ThemeProvider } from "@mui/material/styles";
-import Chart, { CategoryScale } from "chart.js/auto";
-import { Bar } from "react-chartjs-2";
+import { SnackbarProvider } from 'notistack';
+import Router from './routes';
+import { createTheme } from './theme';
+import { ThemeProvider } from '@mui/material/styles';
+import Chart, { CategoryScale } from 'chart.js/auto';
+import { Bar } from 'react-chartjs-2';
 
 function App() {
   const theme = createTheme();
@@ -18,8 +18,8 @@ function App() {
         preventDuplicate
         autoHideDuration={3000}
         anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
+          vertical: 'top',
+          horizontal: 'right',
         }}
       >
         <Router />

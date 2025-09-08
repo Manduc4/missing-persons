@@ -1,38 +1,38 @@
-import ArrowLeftIcon from "@heroicons/react/24/solid/ArrowLeftIcon";
-import { Box, Button, Container, SvgIcon, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
-import { PATH_APP } from "../../../routes/paths";
+import ArrowLeftIcon from '@heroicons/react/24/solid/ArrowLeftIcon';
+import { Box, Button, Container, SvgIcon, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { PATH_APP } from '../../../routes/paths';
 
 const View = () => (
   <>
     <Box
       component="main"
       sx={{
-        alignItems: "center",
-        display: "flex",
-        minHeight: "100vh",
+        alignItems: 'center',
+        display: 'flex',
+        minHeight: '100vh',
       }}
     >
       <Container maxWidth="md">
         <Box
           sx={{
-            alignItems: "center",
-            display: "flex",
-            flexDirection: "column",
+            alignItems: 'center',
+            display: 'flex',
+            flexDirection: 'column',
           }}
         >
           <Box
             sx={{
               mb: 3,
-              textAlign: "center",
+              textAlign: 'center',
             }}
           >
             <img
               alt="Under development"
               src="/assets/errors/error-404.png"
               style={{
-                display: "inline-block",
-                maxWidth: "100%",
+                display: 'inline-block',
+                maxWidth: '100%',
                 width: 400,
               }}
             />

@@ -1,18 +1,18 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import {
   useDispatch as useReduxDispatch,
   useSelector as useReduxSelector,
-} from "react-redux";
-import storage from "redux-persist/lib/storage";
-import auth from "./slices/auth";
-import { persistReducer, persistStore } from "redux-persist";
+} from 'react-redux';
+import storage from 'redux-persist/lib/storage';
+import auth from './slices/auth';
+import { persistReducer, persistStore } from 'redux-persist';
 
 const rootReducer = combineReducers({
   Auth: auth,
 });
 
 const persistConfig = {
-  key: "ROOT",
+  key: 'ROOT',
   storage: storage,
 };
 

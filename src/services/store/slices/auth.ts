@@ -3,9 +3,9 @@ import {
   createAsyncThunk,
   Reducer,
   createAction,
-} from "@reduxjs/toolkit";
-import { axiosInstance } from "../../instance";
-import endpoints from "../../requests/endpoints";
+} from '@reduxjs/toolkit';
+import { axiosInstance } from '../../instance';
+import endpoints from '../../requests/endpoints';
 
 export interface AuthSliceProps {
   signed: boolean;
@@ -25,13 +25,13 @@ const initialState: AuthSliceProps = {
   signed: false,
   loading: false,
   token: {
-    value: "",
-    expires: "",
+    value: '',
+    expires: '',
   },
   user: {
     id: 0,
-    name: "",
-    email: "",
+    name: '',
+    email: '',
   },
 };
 
@@ -55,12 +55,12 @@ export interface LoginPayloadProps {
 export const fetchLogin = createAsyncThunk<
   LoginResponseProps,
   LoginPayloadProps
->("authentication.fetchLogin", async (data, { rejectWithValue }) => {
+>('authentication.fetchLogin', async (data, { rejectWithValue }) => {
   try {
     const api = axiosInstance;
     const response = await api({
       baseURL: process.env.REACT_APP_BASE_URL,
-      method: "POST",
+      method: 'POST',
       data,
     });
 
@@ -75,26 +75,26 @@ export interface LogoutResponseProps {
 }
 
 export const logout = createAsyncThunk<LogoutResponseProps>(
-  "authentication.logout",
+  'authentication.logout',
   async (data, { rejectWithValue }) => {
     try {
       const api = axiosInstance;
       const response = await api({
         baseURL: process.env.REACT_APP_BASE_URL,
-        method: "GET",
+        method: 'GET',
       });
 
       return response.data;
     } catch (err) {
       rejectWithValue(err);
     }
-  }
+  },
 );
 
-export const stopLoading = createAction("authentication.stopLoading");
+export const stopLoading = createAction('authentication.stopLoading');
 
 const authSlice = createSlice({
-  name: "Auth",
+  name: 'Auth',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -122,8 +122,8 @@ const authSlice = createSlice({
       .addCase(logout.fulfilled, (state, action) => {
         state.loading = false;
         state.signed = false;
-        state.user.name = "";
-        state.user.email = "";
+        state.user.name = '';
+        state.user.email = '';
       })
       .addCase(stopLoading, (state, action) => {
         state.loading = false;
