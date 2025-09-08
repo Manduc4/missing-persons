@@ -29,3 +29,6 @@ cd missing-persons
 ```bash
 docker-compose up --build
 ```
+
+### 4. Acesso
+https://localhost:3000
