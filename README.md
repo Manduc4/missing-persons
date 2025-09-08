@@ -1,6 +1,6 @@
 # React Frontend com Docker
 
-Este projeto contém uma aplicação **React** configurada para rodar dentro de containers **Docker**, tanto em modo de desenvolvimento quanto em produção.
+Este projeto contém uma aplicação **React** configurada para rodar dentro de containers **Docker**.
 
 ---
 
@@ -16,13 +16,16 @@ Antes de começar, verifique se você possui os seguintes softwares instalados:
 
 ## 📥 Instalação
 
-### 1. Clonar o repositório
+### 1. Terminal
+Abra o terminal do seu computador
+
+### 2. Clonar o repositório
 ```bash
 git clone https://github.com/Manduc4/missing-persons.git
 cd missing-persons
 ```
 
-### 2. Construir o container
+### 3. Construir o container
 ```bash
 docker-compose up --build
 ```
