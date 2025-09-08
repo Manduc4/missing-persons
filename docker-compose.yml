@@ -1,9 +1,11 @@
-version: '3.1'
+version: "3.9"
 
 services:
   frontend:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: missing-persons-frontend
-    restart: always
     ports:
-      - '3000:3000'
+      - "3000:80"
+    restart: always

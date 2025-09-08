@@ -11,20 +11,15 @@ import {
   MenuItem,
   Button,
   TablePagination,
+  Chip,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import {
-  fetchPersons,
-  PersonsPayloadProps,
-  PersonResponseProps,
-} from "../../../../services/store/actions/persons";
-import { dispatch } from "../../../../services/store";
-import { useSnackbar } from "notistack";
+import { useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { PersonsViewProps } from "../model";
 import { getPersonUrl } from "../../../../utils/getPersonUrl";
+import { PersonResponseProps } from "../../../../services/store/actions/persons";
 
 const View = ({
   getPersons,
@@ -61,15 +56,20 @@ const View = ({
     },
     validationSchema,
     onSubmit: (values) => {
+      setPage(0); // reset da página ao buscar
       getPersons({
         ...values,
-        pagina: page,
+        pagina: 0,
         porPagina: rowsPerPage,
       });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     },
   });
 
   useEffect(() => {
+    // Sempre que mudar de página ou quantidade de linhas, rola para o topo
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
     getPersons({
       ...formik.values,
       pagina: page,
@@ -158,65 +158,85 @@ const View = ({
 
         {/* Cards */}
         <Grid container spacing={4} sx={{ mt: 3 }} alignItems="stretch">
-          {persons.map((missingPerson) => (
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              md={4}
-              lg={3}
-              key={missingPerson.id}
-              sx={{ height: '100%' }}
-            >
-              <Card
-                sx={{
-                  backgroundColor: "#ffffff",
-                  borderRadius: 0,
-                  boxShadow: 4,
-                  overflow: "hidden",
-                  cursor: "pointer",
-                  transition: "transform 0.2s, box-shadow 0.2s",
-                  "&:hover": {
-                    transform: "scale(1.02)",
-                    boxShadow: 8,
-                  },
-                  maxWidth: "350px"
-                }}
-                onClick={() => navigate(`/${missingPerson.id}`)}
+          {persons.map((missingPerson) => {
+            const statusLabel = missingPerson.ultimaOcorrencia.dataLocalizacao
+              ? missingPerson.ultimaOcorrencia.encontradoVivo
+                ? "Encontrado com vida"
+                : "Encontrado sem vida"
+              : "Desaparecido";
+
+            const statusColor =
+              statusLabel === "Desaparecido"
+                ? "warning"
+                : statusLabel === "Encontrado com vida"
+                  ? "success"
+                  : "error";
+
+            return (
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                lg={3}
+                key={missingPerson.id}
+                sx={{ height: "100%" }}
               >
-                <CardMedia
-                  component="img"
-                  height="280px"
-                  image={
-                    getPersonUrl(missingPerson)
-                  }
-                  alt={`Foto de ${missingPerson.nome}`}
-                  sx={{ objectFit: "cover" }}
-                />
-                <CardContent>
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      fontWeight: "bold",
-                      color: "#000000",
-                    }}
-                  >
-                    {missingPerson.nome}
-                  </Typography>
-                  <Divider sx={{ my: 1 }} />
-                  <Typography variant="body1" color="text.primary">
-                    Idade: <strong>{missingPerson.idade} anos</strong>
-                  </Typography>
-                  <Typography variant="body1" sx={{ color: "error.main" }}>
-                    Desaparecimento:{" "}
-                    {new Date(
-                      missingPerson.ultimaOcorrencia.dtDesaparecimento
-                    ).toLocaleDateString("pt-BR")}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
+                <Card
+                  sx={{
+                    backgroundColor: "#ffffff",
+                    borderRadius: 0,
+                    boxShadow: 4,
+                    overflow: "hidden",
+                    cursor: "pointer",
+                    transition: "transform 0.2s, box-shadow 0.2s",
+                    "&:hover": {
+                      transform: "scale(1.02)",
+                      boxShadow: 8,
+                    },
+                    maxWidth: "350px",
+                  }}
+                  onClick={() => navigate(`/${missingPerson.id}`)}
+                >
+                  <CardMedia
+                    component="img"
+                    height="280px"
+                    image={getPersonUrl(missingPerson)}
+                    alt={`Foto de ${missingPerson.nome}`}
+                    sx={{ objectFit: "cover" }}
+                  />
+                  <CardContent>
+                    {/* Status abaixo da imagem */}
+
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        fontWeight: "bold",
+                        color: "#000000",
+                      }}
+                    >
+                      {missingPerson.nome}
+                    </Typography>
+                    <Divider sx={{ my: 1 }} />
+                    <Typography variant="body1" color="text.primary">
+                      Idade: <strong>{missingPerson.idade} anos</strong>
+                    </Typography>
+                    <Typography variant="body1" sx={{ color: "error.main" }}>
+                      Desaparecimento:{" "}
+                      {new Date(
+                        missingPerson.ultimaOcorrencia.dtDesaparecimento
+                      ).toLocaleDateString("pt-BR")}
+                    </Typography>
+                    <Chip
+                      label={statusLabel}
+                      color={statusColor as any}
+                      sx={{ mb: 1 }}
+                    />
+                  </CardContent>
+                </Card>
+              </Grid>
+            );
+          })}
         </Grid>
 
         <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>

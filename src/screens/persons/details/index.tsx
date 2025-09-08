@@ -6,7 +6,7 @@ import { useSnackbar } from "notistack";
 
 const Person = () => {
   const [person, setPerson] = useState<PersonResponseProps | null>(null);
-  const [personOccurrence, setPersonOccurrence] = useState<UpdatePersonOccurenceResponseProps | null>(null)
+  const [personOccurrence, setPersonOccurrence] = useState<UpdatePersonOccurenceResponseProps[]>([])
   const { enqueueSnackbar } = useSnackbar();
 
   const getPerson = async (id: number) => {
@@ -26,8 +26,7 @@ const Person = () => {
     try {
       const response: any = await dispatch(fetchPersonOccurence({ ocorrenciaId: id }));
       if (response.meta.requestStatus === "fulfilled") {
-        console.log(response.payload[0])
-        setPersonOccurrence(response.payload[0]);
+        setPersonOccurrence(response.payload);
       } else {
         enqueueSnackbar(response.payload.message, { variant: "error" });
       }
@@ -40,6 +39,7 @@ const Person = () => {
     try {
       const response: any = await dispatch(updatePersonOccurence({...props}));
       if (response.meta.requestStatus === "fulfilled") {
+        enqueueSnackbar("Ocorrência registrada", { variant: "success" });
       } else {
         enqueueSnackbar(response.payload.message, { variant: "error" });
       }

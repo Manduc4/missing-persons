@@ -10,5 +10,5 @@ export interface PersonViewProps {
     getPerson:  (id: number) => Promise<void>,
     updatePersonOccurrence: (props: UpdatePersonOccurenceResponseProps) => Promise<void>,
     getPersonOccurrence: (id: number) => Promise<void>,
-    personOccurrence: UpdatePersonOccurenceResponseProps | null
+    personOccurrence: UpdatePersonOccurenceResponseProps[]
 }
