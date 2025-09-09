@@ -6,7 +6,6 @@ import {
 export interface PersonsViewProps {
   persons: PersonResponseProps[];
   total: number;
-  setTotal: React.Dispatch<React.SetStateAction<number>>;
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   rowsPerPage: number;

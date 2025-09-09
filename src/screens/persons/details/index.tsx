@@ -3,7 +3,6 @@ import View from './view';
 import {
   fetchPerson,
   fetchPersonOccurence,
-  PersonOccurencePayloadProps,
   PersonResponseProps,
   updatePersonOccurence,
   UpdatePersonOccurenceResponseProps,

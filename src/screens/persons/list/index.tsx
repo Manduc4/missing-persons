@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { PersonsViewProps } from './model';
 import View from './view';
 import { useSnackbar } from 'notistack';
 import {
@@ -37,7 +36,6 @@ const Persons = () => {
         persons,
         getPersons,
         total,
-        setTotal,
         page,
         setPage,
         rowsPerPage,

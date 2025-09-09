@@ -14,7 +14,6 @@ import {
   List,
   ListItem,
   ListItemText,
-  CardContent,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -62,8 +61,6 @@ const View = ({
     },
     enableReinitialize: true,
   });
-
-  const { errors, touched } = formik;
 
   useEffect(() => {
     if (!Number(id)) {
@@ -119,7 +116,6 @@ const View = ({
       </Box>
 
       <Grid container spacing={4}>
-        {/* Foto e status */}
         <Grid item xs={12} md={4}>
           <Card sx={{ boxShadow: 4, borderRadius: 3 }}>
             <CardMedia
@@ -136,7 +132,6 @@ const View = ({
           </Card>
         </Grid>
 
-        {/* Conteúdo em Tabs */}
         <Grid item xs={12} md={8}>
           <Card sx={{ boxShadow: 4, p: 3, borderRadius: 3 }}>
             <Tabs
@@ -148,7 +143,6 @@ const View = ({
               <Tab label="Viu esta pessoa?" />
             </Tabs>
 
-            {/* Aba Informações */}
             {tabValue === 0 && (
               <Box>
                 <Typography variant="h4" gutterBottom>
@@ -235,11 +229,9 @@ const View = ({
               </Box>
             )}
 
-            {/* Aba "Viu esta pessoa?" */}
             {tabValue === 1 && (
               <Box>
                 <Grid container spacing={4}>
-                  {/* Formulário */}
                   <Grid item xs={12} md={6}>
                     <form onSubmit={formik.handleSubmit}>
                       <Grid container spacing={2}>
@@ -310,7 +302,6 @@ const View = ({
                     </form>
                   </Grid>
 
-                  {/* Listagem de ocorrências com scroll */}
                   <Grid item xs={12} md={6}>
                     <Typography variant="h6" gutterBottom>
                       Ocorrências registradas

@@ -19,7 +19,6 @@ import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { PersonsViewProps } from '../model';
 import { getPersonUrl } from '../../../../utils/getPersonUrl';
-import { PersonResponseProps } from '../../../../services/store/actions/persons';
 
 const View = ({
   getPersons,
@@ -28,7 +27,6 @@ const View = ({
   rowsPerPage,
   setPage,
   setRowsPerPage,
-  setTotal,
   total,
 }: PersonsViewProps) => {
   const navigate = useNavigate();
@@ -56,7 +54,7 @@ const View = ({
     },
     validationSchema,
     onSubmit: (values) => {
-      setPage(0); // reset da página ao buscar
+      setPage(0);
       getPersons({
         ...values,
         pagina: 0,
@@ -67,7 +65,6 @@ const View = ({
   });
 
   useEffect(() => {
-    // Sempre que mudar de página ou quantidade de linhas, rola para o topo
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     getPersons({
@@ -75,7 +72,6 @@ const View = ({
       pagina: page,
       porPagina: rowsPerPage,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, rowsPerPage]);
 
   return (
@@ -156,7 +152,6 @@ const View = ({
           </Grid>
         </form>
 
-        {/* Cards */}
         <Grid container spacing={4} sx={{ mt: 3 }} alignItems="stretch">
           {persons.map((missingPerson) => {
             const statusLabel = missingPerson.ultimaOcorrencia.dataLocalizacao
@@ -206,8 +201,6 @@ const View = ({
                     sx={{ objectFit: 'cover' }}
                   />
                   <CardContent>
-                    {/* Status abaixo da imagem */}
-
                     <Typography
                       variant="h6"
                       sx={{
