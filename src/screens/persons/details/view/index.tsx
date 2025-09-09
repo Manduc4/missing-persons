@@ -99,20 +99,8 @@ const View = ({
 
   return (
     <Container maxWidth="lg" sx={{ mt: 4 }}>
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        sx={{ mb: 3 }}
-      >
+      <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ mb: 3 }}>
         <Typography variant="h2">Desaparecidos</Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => navigate(-1)}
-        >
-          Voltar
-        </Button>
       </Box>
 
       <Grid container spacing={4}>
@@ -134,11 +122,7 @@ const View = ({
 
         <Grid item xs={12} md={8}>
           <Card sx={{ boxShadow: 4, p: 3, borderRadius: 3 }}>
-            <Tabs
-              value={tabValue}
-              onChange={(_, newValue) => setTabValue(newValue)}
-              sx={{ mb: 2 }}
-            >
+            <Tabs value={tabValue} onChange={(_, newValue) => setTabValue(newValue)} sx={{ mb: 2 }}>
               <Tab label="Informações" />
               <Tab label="Viu esta pessoa?" />
             </Tabs>
@@ -148,11 +132,7 @@ const View = ({
                 <Typography variant="h4" gutterBottom>
                   {person.nome}
                 </Typography>
-                <Chip
-                  label={statusLabel}
-                  color={statusColor as any}
-                  sx={{ mb: 2 }}
-                />
+                <Chip label={statusLabel} color={statusColor as any} sx={{ mb: 2 }} />
                 <Divider sx={{ my: 2 }} />
                 <Grid container spacing={2}>
                   <Grid item xs={4}>
@@ -178,9 +158,7 @@ const View = ({
                       Data do desaparecimento
                     </Typography>
                     <Typography>
-                      {new Date(
-                        person.ultimaOcorrencia.dtDesaparecimento,
-                      ).toLocaleDateString('pt-BR')}
+                      {new Date(person.ultimaOcorrencia.dtDesaparecimento).toLocaleDateString('pt-BR')}
                     </Typography>
                   </Grid>
                   {person.ultimaOcorrencia.dataLocalizacao && (
@@ -189,9 +167,7 @@ const View = ({
                         Data da localização
                       </Typography>
                       <Typography>
-                        {new Date(
-                          person.ultimaOcorrencia.dataLocalizacao,
-                        ).toLocaleDateString('pt-BR')}
+                        {new Date(person.ultimaOcorrencia.dataLocalizacao).toLocaleDateString('pt-BR')}
                       </Typography>
                     </Grid>
                   )}
@@ -199,31 +175,21 @@ const View = ({
                     <Typography variant="subtitle2" color="text.secondary">
                       Local do desaparecimento
                     </Typography>
-                    <Typography>
-                      {person.ultimaOcorrencia.localDesaparecimentoConcat}
-                    </Typography>
+                    <Typography>{person.ultimaOcorrencia.localDesaparecimentoConcat}</Typography>
                   </Grid>
                   <Grid item xs={12}>
                     <Typography variant="subtitle2" color="text.secondary">
                       Vestimentas
                     </Typography>
                     <Typography>
-                      {
-                        person.ultimaOcorrencia.ocorrenciaEntrevDesapDTO
-                          .vestimentasDesaparecido
-                      }
+                      {person.ultimaOcorrencia.ocorrenciaEntrevDesapDTO.vestimentasDesaparecido}
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
                     <Typography variant="subtitle2" color="text.secondary">
                       Informações adicionais
                     </Typography>
-                    <Typography>
-                      {
-                        person.ultimaOcorrencia.ocorrenciaEntrevDesapDTO
-                          .informacao
-                      }
-                    </Typography>
+                    <Typography>{person.ultimaOcorrencia.ocorrenciaEntrevDesapDTO.informacao}</Typography>
                   </Grid>
                 </Grid>
               </Box>
@@ -245,56 +211,31 @@ const View = ({
                             value={formik.values.informacao}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            error={
-                              formik.touched.informacao &&
-                              Boolean(formik.errors.informacao)
-                            }
-                            helperText={
-                              formik.touched.informacao &&
-                              formik.errors.informacao
-                            }
+                            error={formik.touched.informacao && Boolean(formik.errors.informacao)}
+                            helperText={formik.touched.informacao && formik.errors.informacao}
                           />
                         </Grid>
 
                         <Grid item xs={12}>
-                          <LocalizationProvider
-                            dateAdapter={AdapterDayjs}
-                            adapterLocale="pt-br"
-                          >
+                          <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
                             <DatePicker
                               label="Data"
                               value={formik.values.data}
-                              onChange={(newValue) =>
-                                formik.setFieldValue('data', newValue)
-                              }
+                              onChange={(newValue) => formik.setFieldValue('data', newValue)}
                               renderInput={(params) => (
                                 <TextField
                                   {...params}
                                   fullWidth
-                                  error={
-                                    formik.touched.data &&
-                                    Boolean(formik.errors.data)
-                                  }
-                                  helperText={
-                                    formik.touched.data && formik.errors.data
-                                  }
+                                  error={formik.touched.data && Boolean(formik.errors.data)}
+                                  helperText={formik.touched.data && formik.errors.data}
                                 />
                               )}
                             />
                           </LocalizationProvider>
                         </Grid>
 
-                        <Grid
-                          item
-                          xs={12}
-                          display="flex"
-                          justifyContent="flex-end"
-                        >
-                          <Button
-                            type="submit"
-                            variant="contained"
-                            color="primary"
-                          >
+                        <Grid item xs={12} display="flex" justifyContent="flex-end">
+                          <Button type="submit" variant="contained" color="primary">
                             Salvar
                           </Button>
                         </Grid>
@@ -314,16 +255,17 @@ const View = ({
                     ) : (
                       <Box sx={{ maxHeight: 400, overflowY: 'auto', pr: 1 }}>
                         <List>
-                          {personOccurrence.map((occ, idx) => (
-                            <ListItem key={idx} divider>
-                              <ListItemText
-                                primary={occ.informacao}
-                                secondary={new Date(
-                                  occ.data,
-                                ).toLocaleDateString('pt-BR')}
-                              />
-                            </ListItem>
-                          ))}
+                          {personOccurrence
+                            .slice()
+                            .sort((a, b) => new Date(b.data).getTime() - new Date(a.data).getTime())
+                            .map((occ, idx) => (
+                              <ListItem key={idx} divider>
+                                <ListItemText
+                                  primary={occ.informacao}
+                                  secondary={new Date(occ.data).toLocaleDateString('pt-BR')}
+                                />
+                              </ListItem>
+                            ))}
                         </List>
                       </Box>
                     )}

@@ -123,16 +123,9 @@ export const updatePersonOccurence = createAsyncThunk<
 >('persons.updatePersonOccurence', async (data, { rejectWithValue }) => {
   try {
     const api = axiosInstance;
-    const searchParams = new URLSearchParams();
-
-    Object.entries(data).forEach(([key, value]) => {
-      if (value !== undefined && value !== null && value !== '') {
-        searchParams.append(key, String(value));
-      }
-    });
 
     const response = await api({
-      baseURL: `${process.env.REACT_APP_BASE_URL}${endpoints.personOccurence}?${searchParams.toString()}`,
+      baseURL: `${process.env.REACT_APP_BASE_URL}${endpoints.personOccurence}`,
       method: 'POST',
       data,
     });
